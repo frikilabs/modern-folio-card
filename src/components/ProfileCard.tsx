@@ -28,7 +28,7 @@ export const ProfileCard = ({
   };
 
   return (
-    <Card className="relative w-full max-w-[400px] mx-auto h-[560px] rounded-[24px] overflow-hidden shadow-lg">
+    <Card className="relative w-full h-[560px] rounded-[24px] overflow-hidden shadow-lg">
       {/* Sección Superior: Imagen de fondo (60%) */}
       <div className="absolute top-0 left-0 w-full h-[60%]">
         <div className="relative w-full h-full">
