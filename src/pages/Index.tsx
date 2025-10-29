@@ -3,6 +3,8 @@ import { AboutCard } from "@/components/AboutCard";
 import { ContactCard } from "@/components/ContactCard";
 import { SocialCard } from "@/components/SocialCard";
 import { ExperienceCard } from "@/components/ExperienceCard";
+import { GalleryCard } from "@/components/GalleryCard";
+import { VideoCard } from "@/components/VideoCard";
 import { CTACard } from "@/components/CTACard";
 
 const Index = () => {
@@ -23,6 +25,10 @@ const Index = () => {
         <SocialCard />
         
         <ExperienceCard />
+        
+        <GalleryCard />
+        
+        <VideoCard />
         
         <CTACard />
         
