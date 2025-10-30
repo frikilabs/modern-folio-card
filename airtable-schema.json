@@ -1,0 +1,197 @@
+{
+  "baseId": "app1zpsyVcRE1Cg1L",
+  "tables": [
+    {
+      "name": "Configuracion",
+      "id": "tblkUUWIpfuHUTNh4",
+      "fields": [
+        {
+          "name": "Nombre",
+          "id": "fldB0YvkppAkMg60m",
+          "type": "singleLineText",
+          "options": {}
+        },
+        {
+          "name": "Puesto/Texto",
+          "id": "fldtNBXbbO2kSWQ5d",
+          "type": "multilineText",
+          "options": {}
+        },
+        {
+          "name": "FondoCabecera",
+          "id": "fldZA0YHwB4c2eVko",
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": false
+          }
+        },
+        {
+          "name": "FotoPerfil",
+          "id": "fldwKX1BxlqJjC29R",
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": false
+          }
+        },
+        {
+          "name": "SobreMi",
+          "id": "fldiXIwi3a0CrZbE1",
+          "type": "multilineText",
+          "options": {}
+        }
+      ]
+    },
+    {
+      "name": "Contacto",
+      "id": "tblc3WWJgGYxNCMsj",
+      "fields": [
+        {
+          "name": "NombreTarjeta",
+          "id": "fldMTrUcMlid9nOUI",
+          "type": "singleLineText",
+          "options": {}
+        },
+        {
+          "name": "Email",
+          "id": "fldVchc6MXSM2T7ZJ",
+          "type": "singleCollaborator",
+          "options": {}
+        },
+        {
+          "name": "Telefono",
+          "id": "fldYbSrv0Nnt9TXLd",
+          "type": "phoneNumber",
+          "options": {}
+        },
+        {
+          "name": "Web",
+          "id": "fldXeVf3rm2hBGGco",
+          "type": "url",
+          "options": {}
+        },
+        {
+          "name": "Whatsapp",
+          "id": "fldf8GjgA4Ml6jX4i",
+          "type": "phoneNumber",
+          "options": {}
+        }
+      ]
+    },
+    {
+      "name": "Redes",
+      "id": "tblAEsPShDbIwZaDc",
+      "fields": [
+        {
+          "name": "Name",
+          "id": "fldB6Acqooytvubnp",
+          "type": "singleLineText",
+          "options": {}
+        },
+        {
+          "name": "Link",
+          "id": "fldUyb38nultHM1yv",
+          "type": "url",
+          "options": {}
+        },
+        {
+          "name": "Activo",
+          "id": "fldgERadF05EWQQYm",
+          "type": "checkbox",
+          "options": {
+            "icon": "check",
+            "color": "greenBright"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Galeria",
+      "id": "tblgnDQYFbP5Cj50H",
+      "fields": [
+        {
+          "name": "Nombre",
+          "id": "fldW3DS0XOrXvqMgn",
+          "type": "singleLineText",
+          "options": {}
+        },
+        {
+          "name": "Galeria",
+          "id": "fldhGrcjLEisUuC0G",
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Videos",
+      "id": "tblCBIBf7Ge6knYqS",
+      "fields": [
+        {
+          "name": "Nombre",
+          "id": "fldVzTZeyvRlibL9l",
+          "type": "singleLineText",
+          "options": {}
+        },
+        {
+          "name": "Descripción",
+          "id": "fld7XUUbTd4EwXSlv",
+          "type": "multilineText",
+          "options": {}
+        },
+        {
+          "name": "Link",
+          "id": "fld3gKxQokcllzoFF",
+          "type": "url",
+          "options": {}
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "Configuracion": {
+      "fieldCount": 5,
+      "fields": [
+        "Nombre",
+        "Puesto/Texto",
+        "FondoCabecera",
+        "FotoPerfil",
+        "SobreMi"
+      ]
+    },
+    "Contacto": {
+      "fieldCount": 5,
+      "fields": [
+        "NombreTarjeta",
+        "Email",
+        "Telefono",
+        "Web",
+        "Whatsapp"
+      ]
+    },
+    "Redes": {
+      "fieldCount": 3,
+      "fields": [
+        "Name",
+        "Link",
+        "Activo"
+      ]
+    },
+    "Galeria": {
+      "fieldCount": 2,
+      "fields": [
+        "Nombre",
+        "Galeria"
+      ]
+    },
+    "Videos": {
+      "fieldCount": 3,
+      "fields": [
+        "Nombre",
+        "Descripción",
+        "Link"
+      ]
+    }
+  }
+}

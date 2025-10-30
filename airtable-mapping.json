@@ -1,0 +1,109 @@
+{
+  "contact": {
+    "tableName": "Contacto",
+    "tableId": "tblc3WWJgGYxNCMsj",
+    "fields": [
+      {
+        "name": "NombreTarjeta",
+        "id": "fldMTrUcMlid9nOUI",
+        "type": "singleLineText",
+        "options": {}
+      },
+      {
+        "name": "Email",
+        "id": "fldVchc6MXSM2T7ZJ",
+        "type": "singleCollaborator",
+        "options": {}
+      },
+      {
+        "name": "Telefono",
+        "id": "fldYbSrv0Nnt9TXLd",
+        "type": "phoneNumber",
+        "options": {}
+      },
+      {
+        "name": "Web",
+        "id": "fldXeVf3rm2hBGGco",
+        "type": "url",
+        "options": {}
+      },
+      {
+        "name": "Whatsapp",
+        "id": "fldf8GjgA4Ml6jX4i",
+        "type": "phoneNumber",
+        "options": {}
+      }
+    ]
+  },
+  "social": {
+    "tableName": "Redes",
+    "tableId": "tblAEsPShDbIwZaDc",
+    "fields": [
+      {
+        "name": "Name",
+        "id": "fldB6Acqooytvubnp",
+        "type": "singleLineText",
+        "options": {}
+      },
+      {
+        "name": "Link",
+        "id": "fldUyb38nultHM1yv",
+        "type": "url",
+        "options": {}
+      },
+      {
+        "name": "Activo",
+        "id": "fldgERadF05EWQQYm",
+        "type": "checkbox",
+        "options": {
+          "icon": "check",
+          "color": "greenBright"
+        }
+      }
+    ]
+  },
+  "gallery": {
+    "tableName": "Galeria",
+    "tableId": "tblgnDQYFbP5Cj50H",
+    "fields": [
+      {
+        "name": "Nombre",
+        "id": "fldW3DS0XOrXvqMgn",
+        "type": "singleLineText",
+        "options": {}
+      },
+      {
+        "name": "Galeria",
+        "id": "fldhGrcjLEisUuC0G",
+        "type": "multipleAttachments",
+        "options": {
+          "isReversed": true
+        }
+      }
+    ]
+  },
+  "videos": {
+    "tableName": "Videos",
+    "tableId": "tblCBIBf7Ge6knYqS",
+    "fields": [
+      {
+        "name": "Nombre",
+        "id": "fldVzTZeyvRlibL9l",
+        "type": "singleLineText",
+        "options": {}
+      },
+      {
+        "name": "Descripción",
+        "id": "fld7XUUbTd4EwXSlv",
+        "type": "multilineText",
+        "options": {}
+      },
+      {
+        "name": "Link",
+        "id": "fld3gKxQokcllzoFF",
+        "type": "url",
+        "options": {}
+      }
+    ]
+  }
+}
