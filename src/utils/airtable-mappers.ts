@@ -13,6 +13,7 @@ import type {
   SobreMiFields,
   UbicacionFields,
   PosicionTarjetaFields,
+  ColaborarFields,
   AirtableRecord,
   AirtableAttachment,
 } from '@/types/airtable';
@@ -339,4 +340,30 @@ export const mapPosicionTarjetaData = (records: AirtableRecord<PosicionTarjetaFi
     .filter(record => record.fields.Activado === true) // Solo tarjetas explícitamente activadas
     .map(record => record.fields.Nombre?.trim() || '') // Limpiar espacios en blanco
     .filter(nombre => nombre !== '' && nombre !== 'ProfileCard.tsx'); // Excluir ProfileCard (siempre se renderiza primero)
+};
+
+/**
+ * Mapea los datos de Colaborar a CTACard
+ * Campo "Titulo" es el título de la tarjeta
+ * Campo "Texto" es el texto descriptivo
+ * Campo "NomBtnA" es el texto del botón primario
+ * Campo "NomBtnB" es el texto del botón secundario
+ * Campo "URLA" es el enlace del botón primario
+ * Campo "URLB" es el enlace del botón secundario
+ */
+export const mapColaborarData = (record: AirtableRecord<ColaborarFields> | null) => {
+  if (!record) return null;
+
+  return {
+    title: record.fields.Titulo || 'Colaborar',
+    description: record.fields.Texto || '',
+    primaryButton: {
+      label: record.fields.NomBtnA || '',
+      url: record.fields.URLA || '',
+    },
+    secondaryButton: {
+      label: record.fields.NomBtnB || '',
+      url: record.fields.URLB || '',
+    },
+  };
 };

@@ -9,6 +9,7 @@ import type {
   SobreMiFields,
   UbicacionFields,
   PosicionTarjetaFields,
+  ColaborarFields,
   AirtableRecord,
 } from '@/types/airtable';
 
@@ -22,13 +23,14 @@ type TableFields =
   | ExperienceFields
   | SobreMiFields
   | UbicacionFields
-  | PosicionTarjetaFields;
+  | PosicionTarjetaFields
+  | ColaborarFields;
 
 /**
  * Clase base para operaciones CRUD en Airtable
  */
 class AirtableService<T extends TableFields> {
-  private tableName: 'config' | 'contact' | 'social' | 'gallery' | 'videos' | 'experience' | 'sobremi' | 'ubicacion' | 'posiciontarjeta';
+  private tableName: 'config' | 'contact' | 'social' | 'gallery' | 'videos' | 'experience' | 'sobremi' | 'ubicacion' | 'posiciontarjeta' | 'colaborar';
 
   constructor(tableName: typeof this.tableName) {
     this.tableName = tableName;
@@ -187,6 +189,7 @@ export const experienceService = new AirtableService<ExperienceFields>('experien
 export const sobreMiService = new AirtableService<SobreMiFields>('sobremi');
 export const ubicacionService = new AirtableService<UbicacionFields>('ubicacion');
 export const posicionTarjetaService = new AirtableService<PosicionTarjetaFields>('posiciontarjeta');
+export const colaborarService = new AirtableService<ColaborarFields>('colaborar');
 
 // Exportar la clase base para usos personalizados
 export default AirtableService;

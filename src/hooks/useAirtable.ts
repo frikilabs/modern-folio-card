@@ -14,6 +14,7 @@ import {
   sobreMiService,
   ubicacionService,
   posicionTarjetaService,
+  colaborarService,
 } from '@/services/airtable.service';
 import type {
   ConfigFields,
@@ -25,6 +26,7 @@ import type {
   SobreMiFields,
   UbicacionFields,
   PosicionTarjetaFields,
+  ColaborarFields,
 } from '@/types/airtable';
 
 // Query keys
@@ -38,6 +40,7 @@ export const QUERY_KEYS = {
   sobremi: 'sobremi',
   ubicacion: 'ubicacion',
   posiciontarjeta: 'posiciontarjeta',
+  colaborar: 'colaborar',
 } as const;
 
 /**
@@ -315,6 +318,21 @@ export const usePosicionTarjeta = () => {
     queryKey: [QUERY_KEYS.posiciontarjeta],
     queryFn: async () => {
       return await posicionTarjetaService.getAll('Posicion' as keyof PosicionTarjetaFields, 'asc');
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+/**
+ * Hook para obtener los datos de Colaborar (CTACard)
+ * Retorna el primer registro de la tabla Colaborar
+ */
+export const useColaborar = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.colaborar],
+    queryFn: async () => {
+      const records = await colaborarService.getAll();
+      return records[0] || null;
     },
     staleTime: 1000 * 60 * 5,
   });
