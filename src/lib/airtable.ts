@@ -16,6 +16,7 @@ const config: AirtableConfig = {
     ubicacion: import.meta.env.VITE_AIRTABLE_UBICACION_TABLE || 'Ubicacion',
     posiciontarjeta: import.meta.env.VITE_AIRTABLE_POSICION_TABLE || 'PosicionTarjeta',
     colaborar: import.meta.env.VITE_AIRTABLE_COLABORAR_TABLE || 'Colaborar',
+    personalizacion: import.meta.env.VITE_AIRTABLE_PERSONALIZACION_TABLE || 'Personalizacion',
   },
 };
 

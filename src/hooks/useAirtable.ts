@@ -15,6 +15,7 @@ import {
   ubicacionService,
   posicionTarjetaService,
   colaborarService,
+  personalizacionService,
 } from '@/services/airtable.service';
 import type {
   ConfigFields,
@@ -27,6 +28,7 @@ import type {
   UbicacionFields,
   PosicionTarjetaFields,
   ColaborarFields,
+  PersonalizacionFields,
 } from '@/types/airtable';
 
 // Query keys
@@ -41,6 +43,7 @@ export const QUERY_KEYS = {
   ubicacion: 'ubicacion',
   posiciontarjeta: 'posiciontarjeta',
   colaborar: 'colaborar',
+  personalizacion: 'personalizacion',
 } as const;
 
 /**
@@ -333,6 +336,21 @@ export const useColaborar = () => {
     queryFn: async () => {
       const records = await colaborarService.getAll();
       return records[0] || null;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+/**
+ * Hook para obtener los datos de Personalizacion
+ * Retorna todos los registros de la tabla Personalizacion
+ * que incluyen Background, FotoPerfil, ColorSubcabecera, etc.
+ */
+export const usePersonalizacion = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.personalizacion],
+    queryFn: async () => {
+      return await personalizacionService.getAll();
     },
     staleTime: 1000 * 60 * 5,
   });

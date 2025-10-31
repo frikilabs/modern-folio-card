@@ -36,3 +36,8 @@ dist-ssr
 
 # Package manager auth (may contain tokens)
 .npmrc
+.vercel
+
+# Test scripts with hardcoded tokens (use .env instead)
+scripts/test-*.cjs
+scripts/test-*.js

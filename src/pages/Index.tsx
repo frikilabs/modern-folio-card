@@ -7,9 +7,8 @@ import { GalleryCard } from "@/components/GalleryCard";
 import { VideoCard } from "@/components/VideoCard";
 import { LocationCard } from "@/components/LocationCard";
 import { CTACard } from "@/components/CTACard";
-// @ts-ignore - resolver glitch: hook is exported in ../hooks/useAirtable
-import { useConfig, usePosicionTarjeta } from "../hooks/useAirtable";
-import { mapConfigToProfile, mapPosicionTarjetaData } from "@/utils/airtable-mappers";
+import { useConfig, usePosicionTarjeta, usePersonalizacion, useContact } from "@/hooks/useAirtable";
+import { mapConfigToProfile, mapPosicionTarjetaData, mapPersonalizacionData } from "@/utils/airtable-mappers";
 
 // Mapa de componentes: nombre de archivo -> componente React
 const CARD_COMPONENTS: Record<string, React.ComponentType> = {
@@ -30,14 +29,23 @@ const Index = () => {
   // Obtener posición y activación de tarjetas
   const { data: posicionRecords, isLoading: isLoadingPosicion } = usePosicionTarjeta();
 
+  // Obtener datos de personalización (imágenes y colores)
+  const { data: personalizacionRecords, isLoading: isLoadingPersonalizacion } = usePersonalizacion();
+
+  // Obtener datos de contacto
+  const { data: contactData, isLoading: isLoadingContact } = useContact();
+
   // Mapear datos para ProfileCard
   const profileData = mapConfigToProfile(config);
+
+  // Mapear datos de personalización
+  const personalizacionData = mapPersonalizacionData(personalizacionRecords || []);
 
   // Obtener orden de tarjetas activas
   const activeCardNames = mapPosicionTarjetaData(posicionRecords || []);
 
   // Mostrar loading state
-  if (isLoading || isLoadingPosicion) {
+  if (isLoading || isLoadingPosicion || isLoadingPersonalizacion || isLoadingContact) {
     return (
       <div className="min-h-screen py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
         <div className="max-w-3xl mx-auto space-y-4 sm:space-y-5 md:space-y-6 animate-fade-in">
@@ -81,8 +89,15 @@ const Index = () => {
             title={profileData.title}
             company={profileData.company}
             location={profileData.location}
-            avatarUrl={profileData.avatarUrl}
+            avatarUrl={personalizacionData.avatarUrl || profileData.avatarUrl}
             backgroundUrl={profileData.backgroundUrl}
+            backgroundStyle={personalizacionData.backgroundStyle}
+            subtitleSectionStyle={personalizacionData.subtitleSectionStyle}
+            nameColor={personalizacionData.nameColor}
+            titleColor={personalizacionData.titleColor}
+            phone={contactData?.fields.Telefono}
+            email={contactData?.fields.Email?.email}
+            website={contactData?.fields.Web}
           />
         )}
 

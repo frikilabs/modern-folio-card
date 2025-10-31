@@ -14,6 +14,7 @@ import type {
   UbicacionFields,
   PosicionTarjetaFields,
   ColaborarFields,
+  PersonalizacionFields,
   AirtableRecord,
   AirtableAttachment,
 } from '@/types/airtable';
@@ -365,5 +366,83 @@ export const mapColaborarData = (record: AirtableRecord<ColaborarFields> | null)
       label: record.fields.NomBtnB || '',
       url: record.fields.URLB || '',
     },
+  };
+};
+
+/**
+ * Mapea los datos de Personalizacion para obtener imágenes y colores
+ * Campo "Name" identifica el tipo de personalización (Background, FotoPerfil, ColorSubcabecera, etc.)
+ * Campo "Imagen" contiene el attachment de la imagen
+ * Campo "Color" contiene el primer color
+ * Campo "Color2" contiene el segundo color (opcional)
+ *
+ * REGLAS:
+ * 1. Si hay Imagen → usar imagen
+ * 2. Si NO hay Imagen pero hay Color → usar color sólido
+ * 3. Si NO hay Imagen pero hay Color y Color2 → usar degradado
+ */
+export const mapPersonalizacionData = (records: AirtableRecord<PersonalizacionFields>[]) => {
+  // Helper para buscar un registro por nombre
+  const findByName = (name: string) => {
+    return records.find(r => r.fields.Name?.toLowerCase() === name.toLowerCase());
+  };
+
+  // Helper para determinar el estilo de fondo (imagen, color o degradado)
+  const getBackgroundStyle = (record?: AirtableRecord<PersonalizacionFields>) => {
+    if (!record) return null;
+
+    const imageUrl = getFirstImageUrl(record.fields.Imagen);
+    const color = record.fields.Color;
+    const color2 = record.fields.Color2;
+
+    // Prioridad 1: Si hay imagen, usar imagen
+    if (imageUrl) {
+      return { type: 'image' as const, value: imageUrl };
+    }
+
+    // Prioridad 2: Si hay Color y Color2, usar degradado vertical
+    if (color && color2) {
+      return { type: 'gradient' as const, value: `linear-gradient(to bottom, ${color}, ${color2})` };
+    }
+
+    // Prioridad 3: Si solo hay Color, usar color sólido
+    if (color) {
+      return { type: 'color' as const, value: color };
+    }
+
+    return null;
+  };
+
+  // Obtener Background (fondo principal)
+  const backgroundRecord = findByName('Background');
+  const backgroundStyle = getBackgroundStyle(backgroundRecord);
+
+  // Obtener FotoPerfil
+  const fotoPerfilRecord = findByName('FotoPerfil');
+  const avatarUrl = getFirstImageUrl(fotoPerfilRecord?.fields.Imagen);
+
+  // Obtener ColorSubcabecera (sección oscura donde va el nombre)
+  const colorSubcabeceraRecord = findByName('ColorSubcabecera');
+  const subtitleSectionStyle = getBackgroundStyle(colorSubcabeceraRecord);
+
+  // Obtener ColorNombrePrincipal (color del texto del nombre)
+  const colorNombrePrincipalRecord = findByName('ColorNombrePrincipal');
+  const nameColor = colorNombrePrincipalRecord?.fields.Color;
+
+  // Obtener ColorTextoPrincipal (color del texto del título)
+  const colorTextoPrincipalRecord = findByName('ColorTextoPrincipal');
+  const titleColor = colorTextoPrincipalRecord?.fields.Color;
+
+  return {
+    // Background (fondo principal superior)
+    backgroundStyle,
+    // Avatar (foto de perfil)
+    avatarUrl,
+    // Subtitle section (sección oscura inferior)
+    subtitleSectionStyle,
+    // Color del nombre del usuario
+    nameColor,
+    // Color del título/cargo del usuario
+    titleColor,
   };
 };

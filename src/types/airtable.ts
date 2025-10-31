@@ -102,6 +102,14 @@ export interface ColaborarFields {
   URLB?: string;
 }
 
+// TABLA: Personalizacion
+export interface PersonalizacionFields {
+  Name: string;
+  Imagen?: AirtableAttachment[];
+  Color?: string;
+  Color2?: string;
+}
+
 // Tipos de records completos
 export type ConfigRecord = AirtableRecord<ConfigFields>;
 export type ContactRecord = AirtableRecord<ContactFields>;
@@ -113,6 +121,7 @@ export type SobreMiRecord = AirtableRecord<SobreMiFields>;
 export type UbicacionRecord = AirtableRecord<UbicacionFields>;
 export type PosicionTarjetaRecord = AirtableRecord<PosicionTarjetaFields>;
 export type ColaborarRecord = AirtableRecord<ColaborarFields>;
+export type PersonalizacionRecord = AirtableRecord<PersonalizacionFields>;
 
 // Tipo para operaciones CRUD
 export interface AirtableConfig {
@@ -129,5 +138,6 @@ export interface AirtableConfig {
     ubicacion: string;
     posiciontarjeta: string;
     colaborar: string;
+    personalizacion: string;
   };
 }
