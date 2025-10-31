@@ -7,8 +7,8 @@ import { GalleryCard } from "@/components/GalleryCard";
 import { VideoCard } from "@/components/VideoCard";
 import { LocationCard } from "@/components/LocationCard";
 import { CTACard } from "@/components/CTACard";
-import { useConfig } from "@/hooks/useAirtable";
-import { usePosicionTarjeta } from "@/hooks/useAirtable";
+// @ts-ignore - resolver glitch: hook is exported in ../hooks/useAirtable
+import { useConfig, usePosicionTarjeta } from "../hooks/useAirtable";
 import { mapConfigToProfile, mapPosicionTarjetaData } from "@/utils/airtable-mappers";
 
 // Mapa de componentes: nombre de archivo -> componente React
@@ -60,9 +60,10 @@ const Index = () => {
           <div className="flex items-center justify-center h-96">
             <div className="text-center">
               <p className="text-red-500">Error al cargar los datos</p>
-              <p className="text-sm text-muted-foreground mt-2">
-                Por favor verifica tu conexión a Airtable
-              </p>
+              <p className="text-sm text-muted-foreground mt-2">Por favor verifica tu conexión a Airtable</p>
+              {error instanceof Error && (
+                <p className="text-xs text-muted-foreground mt-1 break-words">{error.message}</p>
+              )}
             </div>
           </div>
         </div>

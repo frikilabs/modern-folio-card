@@ -57,8 +57,12 @@ class AirtableService<T extends TableFields> {
         createdTime: record._rawJson.createdTime,
       }));
     } catch (error) {
-      console.error(`Error fetching all records from ${this.tableName}:`, error);
-      throw error;
+      const e: any = error as any;
+      console.error(`Error fetching all records from ${this.tableName}:`, {
+        statusCode: e?.statusCode,
+        message: e?.message,
+      });
+      throw new Error(`Airtable ${this.tableName} getAll failed: ${e?.statusCode || ''} ${e?.message || 'Unknown error'}`.trim());
     }
   }
 
@@ -97,8 +101,12 @@ class AirtableService<T extends TableFields> {
         createdTime: record._rawJson.createdTime,
       };
     } catch (error) {
-      console.error(`Error creating record in ${this.tableName}:`, error);
-      throw error;
+      const e: any = error as any;
+      console.error(`Error creating record in ${this.tableName}:`, {
+        statusCode: e?.statusCode,
+        message: e?.message,
+      });
+      throw new Error(`Airtable ${this.tableName} create failed: ${e?.statusCode || ''} ${e?.message || 'Unknown error'}`.trim());
     }
   }
 
@@ -118,8 +126,12 @@ class AirtableService<T extends TableFields> {
         createdTime: record._rawJson.createdTime,
       };
     } catch (error) {
-      console.error(`Error updating record ${id} in ${this.tableName}:`, error);
-      throw error;
+      const e: any = error as any;
+      console.error(`Error updating record ${id} in ${this.tableName}:`, {
+        statusCode: e?.statusCode,
+        message: e?.message,
+      });
+      throw new Error(`Airtable ${this.tableName} update failed: ${e?.statusCode || ''} ${e?.message || 'Unknown error'}`.trim());
     }
   }
 
@@ -155,8 +167,12 @@ class AirtableService<T extends TableFields> {
         createdTime: record._rawJson.createdTime,
       }));
     } catch (error) {
-      console.error(`Error finding records in ${this.tableName}:`, error);
-      throw error;
+      const e: any = error as any;
+      console.error(`Error finding records in ${this.tableName}:`, {
+        statusCode: e?.statusCode,
+        message: e?.message,
+      });
+      throw new Error(`Airtable ${this.tableName} find failed: ${e?.statusCode || ''} ${e?.message || 'Unknown error'}`.trim());
     }
   }
 }

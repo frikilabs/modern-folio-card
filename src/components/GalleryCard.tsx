@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Image } from "lucide-react";
 import { useGallery } from "@/hooks/useAirtable";
 import { mapGalleryData } from "@/utils/airtable-mappers";
-import Autoplay from "embla-carousel-autoplay";
 
 interface GalleryImage {
   url: string;
@@ -17,17 +16,12 @@ export const GalleryCard = () => {
   const { data: galleryRecords, isLoading } = useGallery();
   const images = mapGalleryData(galleryRecords || []);
 
-  const autoplayPlugin = Autoplay({
-    delay: 3800,
-    stopOnInteraction: true,
-  });
-
   if (isLoading) {
     return (
       <Card className="card-elevated p-6">
         <div className="flex items-center gap-3 mb-4">
           <Image className="w-6 h-6 text-black" />
-          <h2 className="text-xl font-bold">Galería</h2>
+          <h2 className="text-2xl font-bold">Galería</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 animate-pulse">
           <div className="aspect-square bg-muted rounded-lg"></div>
@@ -44,10 +38,10 @@ export const GalleryCard = () => {
       <Card className="card-elevated p-6">
         <div className="flex items-center gap-3 mb-4">
           <Image className="w-6 h-6 text-black" />
-          <h2 className="text-xl font-bold">Galería</h2>
+          <h2 className="text-2xl font-bold">Galería</h2>
         </div>
         <div className="text-center py-8 text-muted-foreground">
-          <p>No hay imágenes en la galería. Sube tus prieras imagenes.</p>
+          <p>No hay imágenes en la galería. Sube tus prieras imagenes en la sección de "Galeria" de Airtable.</p>
         </div>
       </Card>
     );
@@ -58,17 +52,10 @@ export const GalleryCard = () => {
       <Card className="card-elevated p-6">
         <div className="flex items-center gap-3 mb-4">
           <Image className="w-6 h-6 text-black" />
-          <h2 className="text-xl font-bold">Galería</h2>
+          <h2 className="text-2xl font-bold">Galería</h2>
         </div>
 
-        <Carousel
-          className="w-full"
-          plugins={[autoplayPlugin]}
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-        >
+        <Carousel className="w-full">
           <CarouselContent>
             {images.map((image, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
