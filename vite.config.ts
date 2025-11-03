@@ -15,4 +15,22 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Optimize build output
+    outDir: "dist",
+    emptyOutDir: true, // Clean dist before building
+    sourcemap: false,
+    minify: "esbuild",
+    rollupOptions: {
+      output: {
+        // Use content hash for cache busting
+        entryFileNames: "assets/[name]-[hash].js",
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
+      },
+    },
+  },
+  preview: {
+    port: 3000,
+  },
 }));

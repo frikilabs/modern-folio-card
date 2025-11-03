@@ -1,0 +1,23 @@
+{
+  "app": {
+    "name": "vcards",
+    "description": "Modern Professional vCard - Frikilabs",
+    "buildCommand": "npm ci && npm run build",
+    "startCommand": "npm run preview",
+    "ports": [3000],
+    "environment": {
+      "NODE_ENV": "production"
+    }
+  },
+  "build": {
+    "cache": false,
+    "dockerfile": "Dockerfile"
+  },
+  "healthCheck": {
+    "enabled": true,
+    "path": "/",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  }
+}
