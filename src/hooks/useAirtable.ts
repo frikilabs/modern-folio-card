@@ -17,6 +17,7 @@ import {
   colaborarService,
   personalizacionService,
 } from '@/services/airtable.service';
+import { queryKeyFactory, CACHE_TIMES, cacheInvalidationStrategies } from '@/lib/airtable-query-config';
 import type {
   ConfigFields,
   ContactFields,
@@ -31,7 +32,7 @@ import type {
   PersonalizacionFields,
 } from '@/types/airtable';
 
-// Query keys
+// Export query keys for consistency
 export const QUERY_KEYS = {
   config: 'config',
   contact: 'contact',
@@ -49,74 +50,79 @@ export const QUERY_KEYS = {
 /**
  * Hook para obtener la configuración (Profile + About)
  * Retorna el primer registro que tenga datos (Nombre no vacío)
+ * Optimizado: Static data, 30 minutes cache
  */
 export const useConfig = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.config],
+    queryKey: queryKeyFactory.config(),
     queryFn: async () => {
       const configs = await configService.getAll();
       // Buscar el primer registro que tenga un Nombre
       const validConfig = configs.find(c => c.fields.Nombre && c.fields.Nombre.trim() !== '');
       return validConfig || configs[0] || null;
     },
-    staleTime: 1000 * 60 * 5, // 5 minutos
+    staleTime: CACHE_TIMES.STATIC, // 30 minutos - config doesn't change often
   });
 };
 
 /**
  * Hook para obtener información de contacto
  * Retorna el primer registro de la tabla Contacto
+ * Optimizado: Frequent updates, 5 minutes cache
  */
 export const useContact = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.contact],
+    queryKey: queryKeyFactory.contact(),
     queryFn: async () => {
       const contacts = await contactService.getAll();
       return contacts[0] || null;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.FREQUENT,
   });
 };
 
 /**
  * Hook para obtener todas las redes sociales
  * Retorna todos los registros de la tabla Redes
+ * Optimizado: Frequent updates, 5 minutes cache
  */
 export const useSocial = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.social],
+    queryKey: queryKeyFactory.social(),
     queryFn: async () => {
       return await socialService.getAll();
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.FREQUENT,
   });
 };
 
 /**
  * Hook para obtener la galería
  * Retorna todos los registros de la tabla Galeria
+ * Optimizado: Moderate updates, 10 minutes cache
  */
 export const useGallery = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.gallery],
+    queryKey: queryKeyFactory.gallery(),
     queryFn: async () => {
       return await galleryService.getAll();
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.MODERATE,
   });
 };
 
 /**
  * Hook para obtener videos
  * Retorna todos los registros de la tabla Videos
+ * Optimizado: Moderate updates, 10 minutes cache
  */
 export const useVideos = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.videos],
+    queryKey: queryKeyFactory.videos(),
     queryFn: async () => {
       return await videoService.getAll();
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.MODERATE,
   });
 };
 
@@ -132,7 +138,7 @@ export const useUpdateConfig = () => {
     mutationFn: ({ id, fields }: { id: string; fields: Partial<ConfigFields> }) =>
       configService.update(id, fields),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.config] });
+      cacheInvalidationStrategies.onConfigUpdate(queryClient);
     },
   });
 };
@@ -162,7 +168,7 @@ export const useCreateSocial = () => {
     mutationFn: (fields: Partial<SocialFields>) =>
       socialService.create(fields),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.social] });
+      cacheInvalidationStrategies.onSocialChange(queryClient);
     },
   });
 };
@@ -177,7 +183,7 @@ export const useUpdateSocial = () => {
     mutationFn: ({ id, fields }: { id: string; fields: Partial<SocialFields> }) =>
       socialService.update(id, fields),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.social] });
+      cacheInvalidationStrategies.onSocialChange(queryClient);
     },
   });
 };
@@ -191,7 +197,7 @@ export const useDeleteSocial = () => {
   return useMutation({
     mutationFn: (id: string) => socialService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.social] });
+      cacheInvalidationStrategies.onSocialChange(queryClient);
     },
   });
 };
@@ -206,7 +212,7 @@ export const useCreateGallery = () => {
     mutationFn: (fields: Partial<GalleryFields>) =>
       galleryService.create(fields),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.gallery] });
+      cacheInvalidationStrategies.onGalleryChange(queryClient);
     },
   });
 };
@@ -220,7 +226,7 @@ export const useDeleteGallery = () => {
   return useMutation({
     mutationFn: (id: string) => galleryService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.gallery] });
+      cacheInvalidationStrategies.onGalleryChange(queryClient);
     },
   });
 };
@@ -235,7 +241,7 @@ export const useCreateVideo = () => {
     mutationFn: (fields: Partial<VideoFields>) =>
       videoService.create(fields),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.videos] });
+      cacheInvalidationStrategies.onVideoChange(queryClient);
     },
   });
 };
@@ -250,7 +256,7 @@ export const useUpdateVideo = () => {
     mutationFn: ({ id, fields }: { id: string; fields: Partial<VideoFields> }) =>
       videoService.update(id, fields),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.videos] });
+      cacheInvalidationStrategies.onVideoChange(queryClient);
     },
   });
 };
@@ -264,7 +270,7 @@ export const useDeleteVideo = () => {
   return useMutation({
     mutationFn: (id: string) => videoService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.videos] });
+      cacheInvalidationStrategies.onVideoChange(queryClient);
     },
   });
 };
@@ -272,72 +278,77 @@ export const useDeleteVideo = () => {
 /**
  * Hook para obtener experiencias laborales
  * Retorna todos los registros de la tabla Experiencia ordenados por FechaInicio descendente
+ * Optimizado: Moderate updates, 10 minutes cache
  */
 export const useExperience = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.experience],
+    queryKey: queryKeyFactory.experience(),
     queryFn: async () => {
       return await experienceService.getAll('FechaInicio' as keyof ExperienceFields, 'desc');
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.MODERATE,
   });
 };
 
 /**
  * Hook para obtener información "Sobre Mí"
  * Retorna todos los registros de la tabla SobreMi
+ * Optimizado: Static data, 30 minutes cache
  */
 export const useSobreMi = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.sobremi],
+    queryKey: queryKeyFactory.sobremi(),
     queryFn: async () => {
       return await sobreMiService.getAll();
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.STATIC,
   });
 };
 
 /**
  * Hook para obtener información de Ubicación
  * Retorna el primer registro de la tabla Ubicacion
+ * Optimizado: Static data, 30 minutes cache
  */
 export const useUbicacion = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.ubicacion],
+    queryKey: queryKeyFactory.ubicacion(),
     queryFn: async () => {
       const ubicaciones = await ubicacionService.getAll();
       return ubicaciones[0] || null;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.STATIC,
   });
 };
 
 /**
  * Hook para obtener la posición y activación de tarjetas
  * Retorna los registros en el orden de Airtable (que determina el orden de renderizado)
+ * Optimizado: Real-time data, 30 seconds cache (critical for layout)
  */
 export const usePosicionTarjeta = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.posiciontarjeta],
+    queryKey: queryKeyFactory.posiciontarjeta(),
     queryFn: async () => {
       return await posicionTarjetaService.getAll('Posicion' as keyof PosicionTarjetaFields, 'asc');
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.REALTIME,
   });
 };
 
 /**
  * Hook para obtener los datos de Colaborar (CTACard)
  * Retorna el primer registro de la tabla Colaborar
+ * Optimizado: Real-time data, 30 seconds cache (CTA important for conversions)
  */
 export const useColaborar = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.colaborar],
+    queryKey: queryKeyFactory.colaborar(),
     queryFn: async () => {
       const records = await colaborarService.getAll();
       return records[0] || null;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.REALTIME,
   });
 };
 
@@ -345,13 +356,14 @@ export const useColaborar = () => {
  * Hook para obtener los datos de Personalizacion
  * Retorna todos los registros de la tabla Personalizacion
  * que incluyen Background, FotoPerfil, ColorSubcabecera, etc.
+ * Optimizado: Frequent updates, 5 minutes cache
  */
 export const usePersonalizacion = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.personalizacion],
+    queryKey: queryKeyFactory.personalizacion(),
     queryFn: async () => {
       return await personalizacionService.getAll();
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: CACHE_TIMES.FREQUENT,
   });
 };

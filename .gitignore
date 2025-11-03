@@ -7,9 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
 dist
 dist-ssr
+build
+.next
 *.local
 
 # Editor directories and files
@@ -22,22 +30,79 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.sublime-workspace
+*.iml
 
-# Sensitive environment files
+# Environment variables & secrets
 .env
-.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 !.env.example
 
-# Secrets and private keys
+# Private keys, certificates, and credentials
 *.pem
 *.key
 *.crt
 *.p12
+*.pfx
+*.jks
+.ssh/
+*.gpg
 
-# Package manager auth (may contain tokens)
+# Package manager authentication
 .npmrc
+.yarnrc
+.yarnrc.local
 .vercel
+
+# IDE specific
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+*~
+.DS_Store
 
 # Test scripts with hardcoded tokens (use .env instead)
 scripts/test-*.cjs
 scripts/test-*.js
+scripts/test-*.sh
+
+# OS files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Cache directories
+.cache
+.next
+.nuxt
+.expo/
+dist/
+
+# Testing
+coverage
+.nyc_output
+
+# Build artifacts
+out/
+build/
+
+# Deployment
+.vercel
+.netlify
+
+# Local storage and databases
+*.db
+*.sqlite
+*.sqlite3
+*.log
