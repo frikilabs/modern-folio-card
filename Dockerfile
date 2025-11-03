@@ -13,6 +13,9 @@ RUN npm ci
 COPY . .
 
 # Build the application
+# VITE_BASE_PATH can be set via build arg for subpath deployments
+ARG VITE_BASE_PATH=/
+ENV VITE_BASE_PATH=${VITE_BASE_PATH}
 RUN npm run build
 
 # Production stage

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  vcards:
+    labels:
+      # Router configuration for holaa.shop/edgarmtz
+      - "traefik.http.routers.vcards.rule=Host(`holaa.shop`) && PathPrefix(`/edgarmtz`)"
+      - "traefik.http.routers.vcards.entrypoints=websecure"
+      - "traefik.http.routers.vcards.tls=true"
+
+      # Middleware to strip the path prefix
+      - "traefik.http.middlewares.vcards-stripprefix.stripprefix.prefixes=/edgarmtz"
+      - "traefik.http.routers.vcards.middlewares=vcards-stripprefix"
+
+      # Service configuration
+      - "traefik.http.services.vcards.loadbalancer.server.port=3000"
+
+      # Redirect HTTP to HTTPS
+      - "traefik.http.routers.vcards-http.rule=Host(`holaa.shop`) && PathPrefix(`/edgarmtz`)"
+      - "traefik.http.routers.vcards-http.entrypoints=web"
+      - "traefik.http.routers.vcards-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"

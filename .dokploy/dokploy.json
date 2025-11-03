@@ -2,20 +2,24 @@
   "app": {
     "name": "vcards",
     "description": "Modern Professional vCard - Frikilabs",
-    "buildCommand": "npm ci && npm run build",
+    "buildCommand": "npm ci && VITE_BASE_PATH=/edgarmtz npm run build",
     "startCommand": "npm run preview",
     "ports": [3000],
     "environment": {
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "VITE_BASE_PATH": "/edgarmtz"
     }
   },
   "build": {
     "cache": false,
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "buildArgs": {
+      "VITE_BASE_PATH": "/edgarmtz"
+    }
   },
   "healthCheck": {
     "enabled": true,
-    "path": "/",
+    "path": "/edgarmtz",
     "interval": 30,
     "timeout": 10,
     "retries": 3
